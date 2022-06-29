@@ -63,6 +63,9 @@ def test_if_user_was_edited_it_still_should_be_the_same_object_and_changes_be_in
         original_user = Mock(return_value=valid_user)
         result = controller.edit_user_profile(valid_user, dict(name='Franz', address='Somestreet 69'))
 
+        # test if changed user is different from original user
         assert result != original_user
+        # test if changes have been incorporated successfully
         assert result == mocked_load_users.return_value
+        # test if it is still the same object
         assert result is valid_user
