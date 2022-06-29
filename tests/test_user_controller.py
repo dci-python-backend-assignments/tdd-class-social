@@ -63,3 +63,4 @@ def test_if_user_was_edited_it_still_should_be_valid_and_changes_be_incorporated
         result = controller.edit_user_profile(valid_user, dict(name='Franz', address='Somestreet 69'))
 
         assert result == mocked_load_users.return_value
+        assert result is valid_user
