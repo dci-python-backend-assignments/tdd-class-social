@@ -59,4 +59,3 @@ def test_must_always_return_a_list_of_users_and_200_ok(http_test_client):
         response = http_test_client.get('/users')
         assert response.status_code == 200
 
-

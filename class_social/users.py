@@ -4,6 +4,8 @@ from class_social import db
 from class_social.db import DBException
 from class_social.models import User
 
+from collections import namedtuple
+
 
 class UserControllerError(Exception):
     pass
@@ -32,8 +34,19 @@ class UserController:
         except DBException:
             raise UserControllerError('Error trying to load users from DB')
 
+    # edit user profile
+    def edit_user_profile(self, user):
 
-# API Routes
+        profile_to_edit = dict(user)
+        for k, v in profile_to_edit.items():
+            if k == 'name':
+                profile_to_edit[k] = 'Franz'
+        db.save_users(user)
+        user = namedtuple("User", profile_to_edit.keys())(*profile_to_edit.values())
+
+        return user
+
+        # API Routes
 
 users_routes = APIRouter()
 user_controller = UserController()
@@ -60,3 +73,8 @@ def get_user_by_id(id: str):
 
     raise HTTPException(status_code=404)
 
+# edit user profile
+@users_routes.patch('/users')
+def edit_user_profile(user: User) -> User:
+    user = user_controller.edit_user_profile(user)
+    return user
