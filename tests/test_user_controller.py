@@ -52,7 +52,7 @@ def test_get_users_operation_must_raise_exception_if_db_operation_fails():
             controller.get_users()
 
 # test for editing profile
-def test_if_user_was_edited_it_still_should_be_valid_and_changes_be_incorporated():
+def test_if_user_was_edited_it_still_should_be_the_same_object_and_changes_be_incorporated():
     with patch('class_social.db.load_users') as mocked_load_users:
         valid_user = User(id='c1', name='Mathias', username='mathias', password='somepass', email='mathias@mathias',
                           created_on="2023-03-27T00:00:00.000+00:00", is_active=True, address='some_address')
