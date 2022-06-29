@@ -45,6 +45,16 @@ class UserController:
 users_routes = APIRouter()
 user_controller = UserController()
 
+    # edit user profile
+    def edit_user_profile(self, user, changes):
+
+        for attribute, new_value in changes.items():
+            setattr(user, attribute, new_value)
+
+        return user
+
+        # oneline in case change of object is allowed:
+        # changed_user = User(**{**user.dict(), **changes})
 
 @users_routes.post('/users')
 def post_users(user: User) -> User:
@@ -67,6 +77,11 @@ def get_user_by_id(id: str):
 
     raise HTTPException(status_code=404)
 
+# edit user profile by providing dict with changes
+@users_routes.patch('/users')
+def edit_user_profile(user: User, changes: dict) -> User:
+    user = user_controller.edit_user_profile(user, changes)
+    return user
 # edit user profile by providing dict with changes
 @users_routes.patch('/users')
 def edit_user_profile(user: User, changes: dict) -> User:
