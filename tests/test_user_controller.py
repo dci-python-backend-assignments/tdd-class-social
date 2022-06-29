@@ -60,7 +60,9 @@ def test_if_user_was_edited_it_still_should_be_the_same_object_and_changes_be_in
                           created_on="2023-03-27T00:00:00.000+00:00", is_active=True, address='Somestreet 69')
         mocked_load_users.return_value = expected_user
         controller = UserController()
+        original_user = Mock(return_value=valid_user)
         result = controller.edit_user_profile(valid_user, dict(name='Franz', address='Somestreet 69'))
 
+        assert result != original_user
         assert result == mocked_load_users.return_value
         assert result is valid_user
