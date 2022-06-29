@@ -13,15 +13,13 @@ users_list = [
 ]
 
 
-def test_if_user_was_edited_it_still_should_be_valid_and_changes_be_incorporated():
+def test_get_users_by_id_must_return_none_if_no_user_is_found_with_the_specified_id():
     with patch('class_social.db.load_users') as mocked_load_users:
-        valid_user = User(id='c1', name='Franz', username='mathias', password='somepass', email='mathias@mathias',
-                          created_on="2023-03-27T00:00:00.000+00:00", is_active=True, address='some_address')
-        mocked_load_users.return_value = Mock(return_value=valid_user)
+        mocked_load_users.return_value = []
         controller = UserController()
-        result = controller.edit_user_profile(valid_user)
+        result = controller.get_user_by_id('nonexistent')
 
-        assert result is mocked_load_users.return_value
+        assert result is None
 
 
 def test_get_users_must_return_the_specified_user_object_if_user_exists():
@@ -52,3 +50,15 @@ def test_get_users_operation_must_raise_exception_if_db_operation_fails():
 
         with pytest.raises(UserControllerError):
             controller.get_users()
+
+
+# test for editing profile
+def test_if_user_was_edited_it_still_should_be_valid_and_changes_be_incorporated():
+    with patch('class_social.db.load_users') as mocked_load_users:
+        valid_user = User(id='c1', name='Franz', username='mathias', password='somepass', email='mathias@mathias',
+                          created_on="2023-03-27T00:00:00.000+00:00", is_active=True, address='some_address')
+        mocked_load_users.return_value = Mock(return_value=valid_user)
+        controller = UserController()
+        result = controller.edit_user_profile(valid_user)
+
+        assert result is mocked_load_users.return_value
