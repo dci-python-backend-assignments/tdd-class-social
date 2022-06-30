@@ -15,7 +15,7 @@ class UserController:
         try:
             user_list = db.load_users()
             user_list.append(user)
-            db.save_users(user)
+            db.save_users(user_list)
         except DBException:
             raise UserControllerError('Error trying to save users in the DB')
 
