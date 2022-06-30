@@ -34,11 +34,15 @@ class UserController:
 
     # edit user profile
     def edit_user_profile(self, user, changes):
-
-        for attribute, new_value in changes.items():
-            setattr(user, attribute, new_value)
-
-        return user
+            try:
+                if isinstance(user, User) and type(changes) == dict:
+                    for attribute, new_value in changes.items():
+                        setattr(user, attribute, new_value)
+                    return user
+                else:
+                    raise UserControllerError('Error wrong input type')
+            except UserControllerError:
+                raise UserControllerError('Error wrong input type')
 
         # API Routes
 

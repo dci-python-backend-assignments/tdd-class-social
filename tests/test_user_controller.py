@@ -69,3 +69,15 @@ def test_if_user_was_edited_it_still_should_be_the_same_object_and_changes_be_in
         assert result == mocked_load_users.return_value
         # test if it is still the same object
         assert result is valid_user
+
+
+def test_exception_must_ba_raised_if_profile_changes_input_type_not_dict():
+    with patch('class_social.db.load_users') as mocked_load_users:
+        valid_user = User(id='c1', name='Mathias', username='mathias', password='somepass', email='mathias@mathias',
+                          created_on="2023-03-27T00:00:00.000+00:00", is_active=True, address='some_address')
+        mocked_load_users.return_value = valid_user
+        controller = UserController()
+        controller.side_effect = UserControllerError()
+
+        with pytest.raises(UserControllerError):
+            controller.edit_user_profile(valid_user, list())
