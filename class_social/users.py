@@ -28,7 +28,8 @@ class UserController:
 
     def get_users(self):
         try:
-            db.load_users()
+            return db.load_users()
+
         except DBException:
             raise UserControllerError('Error trying to load users from DB')
 
