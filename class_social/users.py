@@ -15,7 +15,7 @@ class UserController:
         try:
             user_list = db.load_users()
             user_list.append(user)
-            db.save_users(user)
+            db.save_users(user_list)
         except DBException:
             raise UserControllerError('Error trying to save users in the DB')
 
@@ -28,7 +28,8 @@ class UserController:
 
     def get_users(self):
         try:
-            db.load_users()
+            return db.load_users()
+
         except DBException:
             raise UserControllerError('Error trying to load users from DB')
 
