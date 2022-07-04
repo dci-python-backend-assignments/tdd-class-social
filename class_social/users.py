@@ -75,7 +75,7 @@ def get_user_by_id(id: str):
     raise HTTPException(status_code=404)
 
 # edit user profile by providing dict with changes
-@users_routes.patch('/users')
+@users_routes.patch('/users/edit_user_profile')
 def edit_user_profile(user: User, changes: dict) -> User:
     user = user_controller.edit_user_profile(user, changes)
     return user
