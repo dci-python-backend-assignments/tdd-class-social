@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
+from pydantic import ValidationError
 from class_social import db
 from class_social.db import DBException
 from class_social.models import User
@@ -25,6 +26,17 @@ class UserController:
             if user.id == id:
                 return user
         return None
+
+
+    def get_user_by_is_active(self, id):
+        try:
+            users_list = db.load_users()
+            for user in users_list:
+                if user.id == id and user.is_active is True:
+                    return user
+        except:
+            raise ValidationError("The information is not boolean")
+
 
     def get_users(self):
         try:
@@ -57,6 +69,15 @@ def get_user_by_id(id: str):
     user = user_controller.get_user_by_id(id)
 
     if user is not None:
+        return user
+
+    raise HTTPException(status_code=404)
+
+@users_routes.get('/users/{id}/is_active')
+def get_user_is_active_to_be_true(id: str):
+    user = user_controller.get_user_by_is_active(id)
+
+    if user.is_active is True:
         return user
 
     raise HTTPException(status_code=404)
