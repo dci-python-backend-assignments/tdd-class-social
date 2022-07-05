@@ -15,10 +15,6 @@ class UserController:
     def insert_users(self, user):
         try:
             user_list = db.load_users()
-            for list in user_list:
-                if user.email == list.email:
-                    raise Exception("This email already exists in the system")
-
             user_list.append(user)
             db.save_users(user_list)
         except DBException:
@@ -50,6 +46,14 @@ class UserController:
         except DBException:
             raise UserControllerError('Error trying to load users from DB')
 
+    def get_user_by_email(self, email):
+        users_list = db.load_users()
+        for user in users_list:
+            if user.email == email:
+                return user
+        return None
+
+
 
 # API Routes
 
@@ -70,6 +74,16 @@ def get_users():
     return users
 
 
+@users_routes.get('/users/{email}')
+def get_user_by_email(email: str):
+    user = user_controller.get_user_by_email(email)
+
+    if user is not None:
+        return user
+
+    raise HTTPException(status_code=404)
+
+
 @users_routes.get('/users/{id}')
 def get_user_by_id(id: str):
     user = user_controller.get_user_by_id(id)
@@ -78,6 +92,7 @@ def get_user_by_id(id: str):
         return user
 
     raise HTTPException(status_code=404)
+
 
 @users_routes.get('/users/{id}/is_active')
 def get_user_is_active_to_be_true(id: str):
