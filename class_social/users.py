@@ -15,10 +15,15 @@ class UserController:
     def insert_users(self, user):
         try:
             user_list = db.load_users()
+            for list in user_list:
+                if user.email == list.email:
+                    raise Exception("This email already exists in the system")
+
             user_list.append(user)
             db.save_users(user_list)
         except DBException:
             raise UserControllerError('Error trying to save users in the DB')
+
 
     def get_user_by_id(self, id):
         users_list = db.load_users()
@@ -56,6 +61,7 @@ user_controller = UserController()
 def post_users(user: User) -> User:
     user = user_controller.insert_users(user)
     return user
+
 
 
 @users_routes.get('/users')
