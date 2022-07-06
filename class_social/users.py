@@ -33,6 +33,19 @@ class UserController:
         except DBException:
             raise UserControllerError('Error trying to load users from DB')
 
+    def confirm_associations(self, institution: object):
+        try:
+            if institution.association_requests:
+                for user_request in institution.association_requests:
+                    institution.associates.append(user_request)
+                    institution.association_requests.pop()
+                    user_request.institution = institution
+                    if not institution.association_requests:
+                        return 'Done'
+            else:
+                raise UserControllerError('No confirmation requests')
+        except TypeError:
+            raise UserControllerError('There are not user request to confirm')
 
 # API Routes
 
@@ -61,3 +74,7 @@ def get_user_by_id(id: str):
 
     raise HTTPException(status_code=404)
 
+
+@users_routes.get('/user_confirmation/institution')
+def institution_confirm_users(institution: User):
+    user_controller.confirm_associations(institution)

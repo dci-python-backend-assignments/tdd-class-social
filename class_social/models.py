@@ -43,6 +43,7 @@ class Teacher(Person):
 class Institution(User):
     phone_numbers: List[str]
     associates: Optional[List[Union[Student, Teacher]]]
+    association_requests: Optional[List[Union[Student, Teacher]]]  # pending
     head_of_organization: str
     research_institution: bool
     education_institution: bool
@@ -75,3 +76,4 @@ class Post(BaseModel):
     type_of_post: str
 
 
+Student.update_forward_refs()
