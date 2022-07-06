@@ -10,10 +10,9 @@ from class_social.posts import PostController, PostControllerError
 
 posts_list = [
     Post(title='Some_title', body='Text_content', creator=User(id='someid', name='Mathias', username='mathias', password='somepass', email='mathias@mathias',
-         created_on=datetime.datetime.now(), is_active=True, address="some_address", role='Student'), creation_date=datetime.datetime.now(), type_of_post='text')
-    # Post(title='Some_title2', body='Text_content2', creator=User(id='someid_2', name='Andreas', username='andreas', password='somepass', email='andreas@mathias',
-    #      created_on=datetime.datetime.now(), is_active=True, address="some_address", role='Student'), creation_date=datetime.datetime.now(), type_of_post='text')
-
+         created_on=datetime.datetime.now(), is_active=True, address="some_address", role='Student'), creation_date=datetime.datetime.now(), type_of_post='text'),
+    Post(title='Some_title2', body='Text_content2', creator=User(id='someid_2', name='Andreas', username='andreas', password='somepass', email='andreas@mathias',
+           created_on=datetime.datetime.now(), is_active=True, address="some_address", role='Student'), creation_date=datetime.datetime.now(), type_of_post='text')
 ]
 
 
@@ -31,4 +30,4 @@ def test_get_posts_by_creator_role_must_return_none_if_no_post_is_found_with_the
         controller = PostController()
         result = controller.get_posts_by_creator_role('non-existent-role')
 
-        assert result is None
+        assert result == []

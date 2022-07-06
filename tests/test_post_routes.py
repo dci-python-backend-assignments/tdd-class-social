@@ -32,7 +32,7 @@ valid_post_list = [{
 def test_given_an_existent_creator_role_for_the_user_system_must_return_post_list_and_200_ok(http_test_client):
     with patch('class_social.posts.post_controller') as controller_mock:
         controller_mock.get_posts_by_creator_role = Mock(return_value=valid_post_list)
-        response = http_test_client.get('posts/creator/{role}')
+        response = http_test_client.get('posts/creator/Teacher')
         print(response.text)
         assert response.status_code == 200
 

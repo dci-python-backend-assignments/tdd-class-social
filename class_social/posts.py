@@ -12,14 +12,15 @@ class PostController:
         result_post = []
 
         posts_list = db.load_posts()
+
         for post in posts_list:
 
             if post.creator.role == role:
 
-                result_post.append(post)
+                 result_post.append(post)
 
-                return result_post
-        return None
+        return result_post
+
 
 
 # API Routes
