@@ -24,10 +24,11 @@ def test_get_posts_by_student_system_must_show_the_post_posted_by_student_and_re
         assert result == posts_list
 
 
-def test_get_posts_by_creator_role_must_return_none_if_no_post_is_found_with_the_specified_role():
+def test_get_posts_by_creator_role_must_return_empty_list_if_no_post_is_found_with_the_specified_role():
     with patch('class_social.db.load_posts') as mocked_load_posts:
         mocked_load_posts.return_value = []
         controller = PostController()
-        result = controller.get_posts_by_creator_role('non-existent-role')
+        result = controller.get_posts_by_creator_role('non_existent_role')
+        print(result)
 
         assert result == []
