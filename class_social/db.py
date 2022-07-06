@@ -19,3 +19,14 @@ def load_users():
         with open('users.pickle', 'wb') as file:
             pickle.dump([], file)
         return []
+
+
+def load_posts():
+    try:
+        with open('posts.pickle', 'rb') as file:
+            posts = pickle.load(file)
+            return posts
+    except FileNotFoundError:
+        with open('posts.pickle', 'wb') as file:
+            pickle.dump([], file)
+        return []
