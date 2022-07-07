@@ -9,7 +9,7 @@ from class_social.users import UserController, UserControllerError
 
 users_list = [
     User(id='someid', name='Mathias', username='mathias', password='somepass', email='mathias@mathias',
-         created_on=datetime.datetime.now(), is_active=True, address="some_address")
+         created_on=datetime.datetime.now(), is_active=True, address="some_address"),
 ]
 
 
@@ -50,3 +50,11 @@ def test_get_users_operation_must_raise_exception_if_db_operation_fails():
 
         with pytest.raises(UserControllerError):
             controller.get_users()
+
+
+def test_get_users_must_return_the_specified_user_if_user_exists():
+    with patch('class_social.db.load_users') as mocked_load_users:
+        mocked_load_users.return_value = users_list
+        controller = UserController()
+        result = controller.get_user_by_username_and_password('mathias', 'somepass')
+        assert result == users_list[0]

@@ -1,5 +1,7 @@
-from fastapi import APIRouter, HTTPException
 
+
+from fastapi import APIRouter
+from fastapi import HTTPException
 from class_social import db
 from class_social.db import DBException
 from class_social.models import User
@@ -32,6 +34,14 @@ class UserController:
 
         except DBException:
             raise UserControllerError('Error trying to load users from DB')
+# -----------------------------------------------------------------
+
+    def get_user_by_username_and_password(self, username, password):
+        users_list = db.load_users()
+        for user in users_list:
+            if user.username == username and user.password == password:
+                return user
+        return None
 
 
 # API Routes
@@ -61,3 +71,16 @@ def get_user_by_id(id: str):
 
     raise HTTPException(status_code=404)
 
+# ---------------------------------------------------------------
+
+
+@users_routes.get('/users/{username}/{password}')
+def get_user_by_username_and_password(username: str, password: str):
+    user = user_controller.get_user_by_username_and_password(username, password)
+
+    if user is not None:
+        return user
+
+    raise HTTPException(status_code=404)
+
+# ------------------------------------------------------------
