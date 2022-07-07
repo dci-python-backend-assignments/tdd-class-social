@@ -4,7 +4,7 @@
 
   1. Open the Run Configuration selector in the top-right corner *Edit Configurations...*
   2. find Environmental variable and click on the icon on left side of the line to edit
-  3. click on Plus sign to add new variable, provide a NAME and VALUE_
+  3. click on Plus sign to add new variable, provide a NAME(use this name "DETA_PROJECT_KEY") and VALUE_
 ** **
  IMPORTANT 
  - You can access your project key with os.environ 
