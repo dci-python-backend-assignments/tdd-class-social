@@ -26,9 +26,9 @@ valid_user = {
 
 valid_obj_user = User(id='someid', name='Mathias', username='mathias', password='somepass', email='mathias@mathias',
           created_on="2023-03-27T00:00:00.000+00:00", is_active=True, address="some_address", role="Teacher")
-
-valid_obj_user2 = User(id='someid', name='Mathias', username='mathias', password='somepass', email='mathias@mathias',
-          created_on="2023-03-27T00:00:00.000+00:00", is_active=False, address="some_address", role="Teacher")
+#
+# valid_obj_user2 = User(id='someid', name='Mathias', username='mathias', password='somepass', email='mathias@mathias',
+#           created_on="2023-03-27T00:00:00.000+00:00", is_active=False, address="some_address", role="Teacher")
 
 
 def test_given_valid_new_user_data_the_system_must_register_the_user_and_return_200_ok(http_test_client):

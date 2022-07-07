@@ -9,8 +9,8 @@ from class_social.models import User
 from class_social.users import UserController, UserControllerError
 
 users_list = [
-    User(id='someid', name='Mathias', username='mathias', password='somepass', email='mathias@mathias',
-         created_on=datetime.datetime.now(), is_active=True, address="some_address", role='Teacher')
+    # User(id='someid', name='Mathias', username='mathias', password='somepass', email='mathias@mathias',
+    #      created_on=datetime.datetime.now(), is_active=True, address="some_address", role='Teacher')
 ]
 
 
