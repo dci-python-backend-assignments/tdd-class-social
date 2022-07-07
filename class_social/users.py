@@ -51,14 +51,10 @@ class UserController:
 
     def is_email_in_database(self, email):
         users_list = db.load_users()
-        if users_list is not None:
-            for user in users_list:
-                if user.email == email:
-                    return True
-                else:
-                    return False
-        else:
-            return False
+        for user in users_list:
+            if user.email == email:
+                return True   
+        return False
 
 
 # API Routes

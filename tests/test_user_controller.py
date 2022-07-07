@@ -9,9 +9,11 @@ from class_social.models import User
 from class_social.users import UserController, UserControllerError
 
 users_list = [
-    # User(id='someid', name='Mathias', username='mathias', password='somepass', email='mathias@mathias',
-    #      created_on=datetime.datetime.now(), is_active=True, address="some_address", role='Teacher')
+    User(id='someid', name='Mathias', username='mathias', password='somepass', email='mathias@mathias',
+         created_on=datetime.datetime.now(), is_active=True, address="some_address", role='Teacher')
 ]
+
+empty_list =[]
 
 
 def test_get_users_by_id_must_return_none_if_no_user_is_found_with_the_specified_id():
@@ -38,6 +40,13 @@ def test_is_email_in_database_returns_a_True_if_a_user_exists():
         controller = UserController()
         result = controller.is_email_in_database('mathias@mathias')
         assert result is True
+
+def test_is_email_in_database_returns_a_False_if_database_is_empty():
+    with patch('class_social.db.load_users') as mocked_load_users:
+        mocked_load_users.return_value = empty_list
+        controller = UserController()
+        result = controller.is_email_in_database('mathias@mathias')
+        assert result is False
 
 
 def test_insert_users_operation_must_raise_exception_if_db_operation_fails():
