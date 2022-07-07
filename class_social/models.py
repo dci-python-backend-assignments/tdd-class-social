@@ -16,6 +16,7 @@ class User(BaseModel):
     address: str
     website: Optional[str]
     connections: Optional[List['User']]
+    # connections: Optional[List['User']]
     about: Optional[str]
     role: Optional[str]
 
@@ -71,8 +72,8 @@ class Post(BaseModel):
     creator: User
     creation_date: datetime
     comments_on_this_post: Optional[List[str]]
-    likes_for_this_post: Optional[List[Union[Student, Teacher, Institution]]]
-    shares_for_this_post: Optional[List[Union[Student, Teacher, Institution]]]
+    likes_for_this_post: Optional[List[str]]
+    #likes_for_this_post: Optional[List[Union['Student', 'Teacher', 'Institution']]]
+    #shares_for_this_post: Optional[List[Union['Student', 'Teacher', 'Institution']]]
+    shares_for_this_post: Optional[List[str]]
     type_of_post: str
-
-
