@@ -8,8 +8,9 @@
 ** **
  IMPORTANT 
  - You can access your project key with os.environ 
-      ```python
+      ```PY
    import os 
-   PROJECT_KEY = os.environ.get("name of your variable")
+   token = os.environ.get("DETA_PROJECT_KEY")
+ - !!! All devops are required to Use the SAME environmental variable!!!
 
  - Please reach the Product Owner or the Developer of this Issue to get the Project Key
