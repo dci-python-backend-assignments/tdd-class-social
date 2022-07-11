@@ -14,9 +14,11 @@ class User(BaseModel):
     is_active: bool
     name: str
     address: str
+    role: str
     website: Optional[str]
     connections: Optional[List['User']]
     about: Optional[str]
+    role: Optional[str]
 
 
 class Person(User):

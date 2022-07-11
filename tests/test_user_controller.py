@@ -1,5 +1,8 @@
 import datetime
-from unittest.mock import patch
+
+from unittest.mock import patch, Mock
+from fastapi import HTTPException
+
 
 import pytest
 
@@ -9,7 +12,7 @@ from class_social.users import UserController, UserControllerError
 
 users_list = [
     User(id='someid', name='Mathias', username='mathias', password='somepass', email='mathias@mathias',
-         created_on=datetime.datetime.now(), is_active=True, address="some_address"),
+         created_on=datetime.datetime.now(), is_active=True, address="some_address", role='Teacher')
 ]
 
 
@@ -29,6 +32,14 @@ def test_get_users_must_return_the_specified_user_object_if_user_exists():
         result = controller.get_user_by_id('someid')
         assert type(result) is User
         assert result == users_list[0]
+
+
+def test_is_email_in_database_returns_a_True_if_a_user_exists():
+    with patch('class_social.db.load_users') as mocked_load_users:
+        mocked_load_users.return_value = users_list
+        controller = UserController()
+        result = controller.is_email_in_database('mathias@mathias')
+        assert result is True
 
 
 def test_insert_users_operation_must_raise_exception_if_db_operation_fails():
@@ -58,3 +69,36 @@ def test_get_users_must_return_the_specified_user_if_user_exists():
         controller = UserController()
         result = controller.get_user_by_username_and_password('mathias', 'somepass')
         assert result == users_list[0]
+
+
+# test for editing profile
+def test_if_user_was_edited_it_still_should_be_the_same_object_and_changes_be_incorporated():
+    with patch('class_social.db.load_users') as mocked_load_users:
+        valid_user = User(id='c1', name='Mathias', username='mathias', password='somepass', email='mathias@mathias',
+                          created_on="2023-03-27T00:00:00.000+00:00", is_active=True, address='some_address')
+        expected_user = User(id='c1', name='Franz', username='mathias', password='somepass', email='mathias@mathias',
+                          created_on="2023-03-27T00:00:00.000+00:00", is_active=True, address='Somestreet 69')
+        mocked_load_users.return_value = [expected_user]
+        controller = UserController()
+        original_user = Mock(return_value=valid_user)
+        result = controller.edit_user_profile(valid_user, dict(name='Franz', address='Somestreet 69'))
+
+        # test if changed user is different from original user
+        assert result != original_user
+        # test if changes have been incorporated successfully
+        assert [result] == mocked_load_users.return_value
+        # test if it is still the same object
+        assert result is valid_user
+
+
+def test_exception_error_404_must_be_raised_if_user_nonexistent():
+    with patch('class_social.db.load_users') as mocked_load_users:
+        valid_user = User(id='c1', name='Mathias', username='mathias', password='somepass', email='mathias@mathias',
+                          created_on="2023-03-27T00:00:00.000+00:00", is_active=True, address='some_address')
+        mocked_load_users.return_value = users_list
+        controller = UserController()
+        controller.side_effect = HTTPException(status_code=404)
+
+        with pytest.raises(HTTPException):
+            controller.edit_user_profile(valid_user, dict(name='Franz', address='Somestreet 69'))
+
