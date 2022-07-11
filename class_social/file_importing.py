@@ -9,6 +9,7 @@ token = os.environ.get("DETA_PROJECT_KEY")
 deta = Deta(token)
 files__ = deta.Drive("myfiles")
 
+
 @upload_router.post('/teacher/upload', tags=["files"])
 async def upload(files: List[UploadFile] = File(...)):
     for file in files:

@@ -10,12 +10,16 @@ class UserControllerError(Exception):
     def __init__(self, message):
         self.message = message
 
+    """since the self was not used inside the UserController methods we 
+    created @static methods out of them. This also means we remove the 'self' """
+
 
 class UserController:
 
-    def insert_users(self, user):
+    @staticmethod
+    def insert_users(user):
         try:
-            if self.is_email_in_database(user) is False:
+            if user.is_email_in_database(user) is False:   # changed to comply with static methods.
                 user_list = db.load_users()
                 user_list.append(user)
                 db.save_users([user for user in user_list])
@@ -24,32 +28,33 @@ class UserController:
         except DBException:
             raise UserControllerError('Error trying to save users in the DB')
 
-
-    def get_user_by_id(self, id):
+    @staticmethod
+    def get_user_by_id_(id_):
         users_list = db.load_users()
         for user in users_list:
-            if user.id == id:
+            if user.id_ == id_:
                 return user
         return None
 
-
-    def get_user_by_is_active(self, id):
+    @staticmethod
+    def get_user_by_is_active(id_):
         try:
             users_list = db.load_users()
             for user in users_list:
-                if user.id == id and user.is_active is True:
+                if user.id_ == id_ and user.is_active is True:
                     return user
         except:
             raise ValidationError("The information is not boolean")
 
-
-    def get_users(self):
+    @staticmethod
+    def get_users():
         try:
             return db.load_users()
         except DBException:
             raise UserControllerError('Error trying to load users from DB')
 
-    def is_email_in_database(self, email):
+    @staticmethod
+    def is_email_in_database(email):
         users_list = db.load_users()
         for user in users_list:
             if user.email == email:
@@ -57,8 +62,30 @@ class UserController:
             else:
                 return False
 
+# ----------------------------------------------------------------- #20_begin
+    @staticmethod
+    def get_user_by_username_and_password(self, username, password):
+        users_list = db.load_users()
+        for user in users_list:
+            if user.username == username and user.password == password:
+                return user
+        return None
+# ---------------------------------------------------------------- #20_end
 
+# ----------------------------------------------------------------- #20 to complicate the matter a bit-start
+def get_user_password_strong(s):
+    users_list = db.load_users()
+    for user, password in users_list:
+        if len(list(set(s) & set(password.ascii_lowercase))) > 0 and len(
+            list(set(s) & set(password.ascii_uppercase))) > 0 and len(list(set(s) & set(password.digits))) > 0 and len(
+                list(set(s) & set(password.punctuation))) > 0:
+            return "strong"
+        else:
+            return "weak"
+
+# ----------------------------------------------------------------- #20 to complicate the matter a bit- end
 # API Routes
+
 
 users_routes = APIRouter()
 user_controller = UserController()
@@ -79,9 +106,9 @@ def get_users():
     return users
 
 
-@users_routes.get('/users/{id}')
-def get_user_by_id(id: str):
-    user = user_controller.get_user_by_id(id)
+@users_routes.get('/users/{id_}')
+def get_user_by_id(id_: str):
+    user = user_controller.get_user_by_id_(id_)
 
     if user is not None:
         return user
@@ -89,12 +116,23 @@ def get_user_by_id(id: str):
     raise HTTPException(status_code=404)
 
 
-@users_routes.get('/users/{id}/is_active')
-def get_user_is_active_to_be_true(id: str):
-    user = user_controller.get_user_by_is_active(id)
+@users_routes.get('/users/{id_}/is_active')
+def get_user_is_active_to_be_true(id_: str):
+    user = user_controller.get_user_by_is_active(id_)
 
     if user.is_active is True:
         return user
 
     raise HTTPException(status_code=404)
 
+
+# --------------------------------------------------------------- #20_begin
+
+@users_routes.get('/users/{username}/{password}')
+def get_user_by_username_and_password(username: str, password: str):
+    user = user_controller.get_user_by_username_and_password(username, password)
+
+    if user is not None:
+        return user
+    raise HTTPException(status_code=404)
+# --------------------------------------------------------------- #20_end

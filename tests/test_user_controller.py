@@ -61,3 +61,12 @@ def test_get_users_operation_must_raise_exception_if_db_operation_fails():
             controller.get_users()
 
 
+# ----------------------------------------------- #20_begin
+def test_get_users_must_return_the_specified_user_if_user_exists():
+    with patch('class_social.db.load_users') as mocked_load_users:
+        mocked_load_users.return_value = users_list
+        controller = UserController()
+        result = controller.get_user_by_username_and_password('mathias', 'somepass')
+        assert result == users_list[0]
+
+# ------------------------------------------------ #20_end

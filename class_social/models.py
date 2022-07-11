@@ -76,4 +76,14 @@ class Post(BaseModel):
     shares_for_this_post: Optional[List[Union[Student, Teacher, Institution]]]
     type_of_post: str
 
+# -----------Authentication------- #20_begin
+class UserAuthenticate(BaseModel):
+    username: str
+    password: str
 
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+# -----------End Authentication------- #20_end
