@@ -97,6 +97,14 @@ def post_users(user: User) -> User:
         raise HTTPException(status_code=400, detail=e.message)
 
 
+@users_routes.get('/users/{id}/is_active')
+def get_user_is_active_to_be_true(id: str):
+    user = user_controller.get_user_by_is_active(id)
+
+    if user.is_active is True:
+        return user
+    raise HTTPException(status_code=404)
+
 @users_routes.get('/users')
 def get_users():
     users = user_controller.get_users()
@@ -119,19 +127,13 @@ def get_user_by_username_and_password(username: str, password: str):
 
     if user is not None:
         return user
-        
+    raise HTTPException(status_code=404)
+
 # edit user profile by providing dict with changes
 @users_routes.patch('/users/{user_id}/profile')
 def edit_user_profile(user: User, changes: dict) -> User:
     user = user_controller.edit_user_profile(user, changes)
     return user
 
-@users_routes.get('/users/{id}/is_active')
-def get_user_is_active_to_be_true(id: str):
-    user = user_controller.get_user_by_is_active(id)
 
-    if user.is_active is True:
-        return user
-
-    raise HTTPException(status_code=404)
 
