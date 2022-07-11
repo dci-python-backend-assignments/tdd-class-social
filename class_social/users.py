@@ -49,6 +49,21 @@ class UserController:
         except DBException:
             raise UserControllerError('Error trying to load users from DB')
 
+    # edit user profile
+    def edit_user_profile(self, user, changes):
+        id_ = user.id
+        if get_user_by_id(id_) is None:
+            raise HTTPException(status_code=404)
+        try:
+            if isinstance(user, User) and type(changes) == dict:
+                for attribute, new_value in changes.items():
+                    setattr(user, attribute, new_value)
+                return user
+            else:
+                raise UserControllerError('Error wrong input type')
+        except UserControllerError:
+            raise UserControllerError('Error wrong input type')
+
     def is_email_in_database(self, email):
         users_list = db.load_users()
         for user in users_list:
@@ -58,7 +73,7 @@ class UserController:
                 return False
 
 
-# API Routes
+        # API Routes
 
 users_routes = APIRouter()
 user_controller = UserController()
@@ -88,6 +103,11 @@ def get_user_by_id(id: str):
 
     raise HTTPException(status_code=404)
 
+# edit user profile by providing dict with changes
+@users_routes.patch('/users/{user_id}/profile')
+def edit_user_profile(user: User, changes: dict) -> User:
+    user = user_controller.edit_user_profile(user, changes)
+    return user
 
 @users_routes.get('/users/{id}/is_active')
 def get_user_is_active_to_be_true(id: str):

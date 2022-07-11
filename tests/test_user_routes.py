@@ -81,10 +81,9 @@ def test_must_always_return_a_list_of_users_and_200_ok(http_test_client):
         response = http_test_client.get('/users')
         assert response.status_code == 200
 
-
-
-
-
-
-
+def test_must_return_edited_user_and_200_ok(http_test_client):
+    with patch('class_social.users.user_controller') as controller_mock:
+        controller_mock.edit_user_profile = Mock(return_value=valid_user)
+        response = http_test_client.patch('/users/{user_id}/profile', json={"user": valid_user, "changes": {}})
+        assert response.status_code == 200
 
