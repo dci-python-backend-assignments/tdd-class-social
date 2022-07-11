@@ -14,18 +14,11 @@ class User(BaseModel):
     is_active: bool
     name: str
     address: str
+    role: str
     website: Optional[str]
-    connections: Optional[List[Union['Student', 'Teacher', 'Institution']]]
+    connections: Optional[List['User']]
     about: Optional[str]
-
-
-class Course(BaseModel):
-    title: str
-    starting_date: datetime
-    end_date: datetime
-    starting_time: datetime
-    end_time: datetime
-    teacher: Optional['Teacher']
+    role: Optional[str]
 
 
 class Person(User):
@@ -35,16 +28,16 @@ class Person(User):
 
 
 class Student(Person):
-    current_courses: Optional[List[Course]]
-    completed_courses: Optional[List[Course]]
+    current_courses: Optional[List['Course']]
+    completed_courses: Optional[List['Course']]
     institution: Optional['Institution']
     interests: Optional[List[str]]
 
 
 class Teacher(Person):
-    courses_in_progress: Optional[List[Course]]
-    old_courses: Optional[List[Course]]
-    future_courses: Optional[List[Course]]
+    courses_in_progress: Optional[List['Course']]
+    old_courses: Optional[List['Course']]
+    future_courses: Optional[List['Course']]
     institution: Optional['Institution']
     interests: Optional[List[str]]
 
@@ -56,9 +49,21 @@ class Institution(User):
     research_institution: bool
     education_institution: bool
     research_projects: Optional[List[str]]
-    active_courses: Optional[List[Course]]
-    inactive_courses: Optional[List[Course]]
-    offers: Optional[List[Course]]
+    active_courses: Optional[List['Course']]
+    inactive_courses: Optional[List['Course']]
+    offers: Optional[List['Course']]
+
+
+User.update_forward_refs()
+
+
+class Course(BaseModel):
+    title: str
+    starting_date: datetime
+    end_date: datetime
+    starting_time: datetime
+    end_time: datetime
+    teacher: Optional[Teacher]
 
 
 class Post(BaseModel):

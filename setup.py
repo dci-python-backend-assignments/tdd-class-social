@@ -12,7 +12,9 @@ setup(
     requires=[
         'fastapi',
         'requests',
-        'uvicorn'
+        'uvicorn',
+        'deta',
+        'python-multipart'
     ],
     test_suite='pytest',
     packages=find_packages(),

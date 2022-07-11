@@ -1,2 +1,5 @@
 uvicorn~=0.17.6
-fastapi~=0.78.0?Ww
+fastapi~=0.78.0
+pydantic
+deta
+python-multipart
