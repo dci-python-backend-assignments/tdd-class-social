@@ -86,5 +86,3 @@ def post_authenticate_user(user: UserAuthenticate) -> Dict[str, Union[str, Any]]
             access_token = auth_controller.encode_jwt_token(
                 data={"sub": user.username}, expires_delta=access_token_expires)
             return {"access_token": access_token, "token_type": "Bearer"}
-
-# This file is missing

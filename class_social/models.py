@@ -14,7 +14,6 @@ class User(BaseModel):
     is_active: bool
     name: str
     address: str
-    role: str
     website: Optional[str]
     connections: Optional[List['User']]
     about: Optional[str]
@@ -76,7 +75,8 @@ class Post(BaseModel):
     shares_for_this_post: Optional[List[Union[Student, Teacher, Institution]]]
     type_of_post: str
 
-# -----------Authentication------- #20_begin
+
+# -----------Authentication-------
 class UserAuthenticate(BaseModel):
     username: str
     password: str
@@ -86,4 +86,4 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
-# -----------End Authentication------- #20_end
+# -----------End Authentication-------
