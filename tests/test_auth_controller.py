@@ -61,3 +61,5 @@ def test_encode_jwt_token_return_string():
     user = UserAuthenticate(username='mathias', password='somepass')
     result = controller.encode_jwt_token(data={"sub": user.username})
     assert type(result) is str
+
+# This file is missing

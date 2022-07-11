@@ -73,3 +73,6 @@ def test_post_request_with_proper_body_returns_200_with_jwt_token(http_test_clie
         assert response.status_code == 200
         assert len(response.json()) == 2
         # assert type(response.text) is Token
+
+
+# This file is missing
