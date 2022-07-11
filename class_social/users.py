@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
-
+from fastapi import APIRouter
+from fastapi import HTTPException
 from pydantic import ValidationError
+
 from class_social import db
 from class_social.db import DBException
 from class_social.models import User
@@ -49,6 +50,14 @@ class UserController:
         except DBException:
             raise UserControllerError('Error trying to load users from DB')
 
+
+    def get_user_by_username_and_password(self, username, password):
+        users_list = db.load_users()
+        for user in users_list:
+            if user.username == username and user.password == password:
+                return user
+        return None
+
     # edit user profile
     def edit_user_profile(self, user, changes):
         id_ = user.id
@@ -88,6 +97,14 @@ def post_users(user: User) -> User:
         raise HTTPException(status_code=400, detail=e.message)
 
 
+@users_routes.get('/users/{id}/is_active')
+def get_user_is_active_to_be_true(id: str):
+    user = user_controller.get_user_by_is_active(id)
+
+    if user.is_active is True:
+        return user
+    raise HTTPException(status_code=404)
+
 @users_routes.get('/users')
 def get_users():
     users = user_controller.get_users()
@@ -103,18 +120,20 @@ def get_user_by_id(id: str):
 
     raise HTTPException(status_code=404)
 
+
+@users_routes.get('/users/{username}/{password}')
+def get_user_by_username_and_password(username: str, password: str):
+    user = user_controller.get_user_by_username_and_password(username, password)
+
+    if user is not None:
+        return user
+    raise HTTPException(status_code=404)
+
 # edit user profile by providing dict with changes
 @users_routes.patch('/users/{user_id}/profile')
 def edit_user_profile(user: User, changes: dict) -> User:
     user = user_controller.edit_user_profile(user, changes)
     return user
 
-@users_routes.get('/users/{id}/is_active')
-def get_user_is_active_to_be_true(id: str):
-    user = user_controller.get_user_by_is_active(id)
 
-    if user.is_active is True:
-        return user
-
-    raise HTTPException(status_code=404)
 

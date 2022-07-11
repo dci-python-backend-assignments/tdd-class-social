@@ -62,6 +62,15 @@ def test_get_users_operation_must_raise_exception_if_db_operation_fails():
         with pytest.raises(UserControllerError):
             controller.get_users()
 
+
+def test_get_users_must_return_the_specified_user_if_user_exists():
+    with patch('class_social.db.load_users') as mocked_load_users:
+        mocked_load_users.return_value = users_list
+        controller = UserController()
+        result = controller.get_user_by_username_and_password('mathias', 'somepass')
+        assert result == users_list[0]
+
+
 # test for editing profile
 def test_if_user_was_edited_it_still_should_be_the_same_object_and_changes_be_incorporated():
     with patch('class_social.db.load_users') as mocked_load_users:
@@ -92,3 +101,4 @@ def test_exception_error_404_must_be_raised_if_user_nonexistent():
 
         with pytest.raises(HTTPException):
             controller.edit_user_profile(valid_user, dict(name='Franz', address='Somestreet 69'))
+
