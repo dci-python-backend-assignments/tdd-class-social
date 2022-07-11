@@ -12,4 +12,5 @@ app.include_router(upload_router)
 
 
 if __name__ == '__main__':
+
     uvicorn.run(app='class_social.main:app')

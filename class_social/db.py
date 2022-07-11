@@ -21,6 +21,11 @@ def load_users():
         return []
 
 
+def save_posts(posts):
+    with open('posts.pickle', 'wb') as file:
+        pickle.dump(posts, file)
+
+
 def load_posts():
     try:
         with open('posts.pickle', 'rb') as file:
