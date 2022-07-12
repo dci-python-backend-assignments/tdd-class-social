@@ -77,3 +77,14 @@ class Post(BaseModel):
     type_of_post: str
 
 
+# -----------Authentication-------
+class UserAuthenticate(BaseModel):
+    username: str
+    password: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+# -----------End Authentication-------

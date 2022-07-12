@@ -87,3 +87,9 @@ def test_must_return_edited_user_and_200_ok(http_test_client):
         response = http_test_client.patch('/users/{user_id}/profile', json={"user": valid_user, "changes": {}})
         assert response.status_code == 200
 
+def test_given_invalid_authenticated_user_data_must_get_404_ok(http_test_client):
+    with patch('class_social.users.user_controller') as controller_mock:
+        controller_mock.get_user_by_username_and_password = Mock(return_value=None)
+        response = http_test_client.get('/users/invalid_username/invalid_Password')
+        assert response.status_code == 404
+
