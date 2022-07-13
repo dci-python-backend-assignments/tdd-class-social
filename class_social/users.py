@@ -72,6 +72,14 @@ class UserController:
             else:
                 return False
 
+    def confirm_associations(self, institution: object):
+        try:
+            for user_request in institution.association_requests:
+                institution.associates.append(user_request)
+                user_request.institution = institution
+            institution.association_requests.clear()
+        except TypeError:
+            raise UserControllerError('There are not user request to confirm')
 
         # API Routes
 
@@ -118,3 +126,6 @@ def get_user_is_active_to_be_true(id: str):
 
     raise HTTPException(status_code=404)
 
+@users_routes.get('/user_confirmation/institution')
+def institution_confirm_users(institution: User):
+    user_controller.confirm_associations(institution)

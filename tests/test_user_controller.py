@@ -7,7 +7,7 @@ from fastapi import HTTPException
 import pytest
 
 from class_social.db import DBException
-from class_social.models import User
+from class_social.models import User, Student, Institution
 from class_social.users import UserController, UserControllerError
 
 users_list = [
@@ -92,3 +92,16 @@ def test_exception_error_404_must_be_raised_if_user_nonexistent():
 
         with pytest.raises(HTTPException):
             controller.edit_user_profile(valid_user, dict(name='Franz', address='Somestreet 69'))
+
+def test_confirm_associations_operation_if_they_are_association_requests_clear_associations_requests_return_done():
+    controller = UserController()
+    controller.confirm_associations(institution_association_request_non_empty_list)
+    assert institution_association_request_non_empty_list.association_requests == []
+    assert institution_association_request_non_empty_list.associates != []
+
+
+def test_confirm_associations_operation_if_teacher_or_student_associated_is_not_in_attribute_institution_fails():
+    controller = UserController()
+
+    controller.confirm_associations(institution_association_request_non_empty_list_1)
+    assert student_with_an_institution_associated.institution == institution_associated_with_a_user
