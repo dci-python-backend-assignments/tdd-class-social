@@ -69,8 +69,7 @@ class UserController:
         for user in users_list:
             if user.email == email:
                 return True
-            else:
-                return False
+        return False
 
 
         # API Routes
