@@ -3,3 +3,6 @@ fastapi~=0.78.0
 pydantic
 deta
 python-multipart
+jwt
+bcrypt
+pyjwt
