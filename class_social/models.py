@@ -1,7 +1,6 @@
 from datetime import datetime
 from typing import Optional, List, Union
 
-
 from pydantic import BaseModel
 
 
@@ -45,6 +44,7 @@ class Teacher(Person):
 class Institution(User):
     phone_numbers: List[str]
     associates: Optional[List[Union[Student, Teacher]]]
+    association_requests: Optional[List[Union[Student, Teacher]]]
     head_of_organization: str
     research_institution: bool
     education_institution: bool
@@ -75,6 +75,9 @@ class Post(BaseModel):
     likes_for_this_post: Optional[List[Union[Student, Teacher, Institution]]]
     shares_for_this_post: Optional[List[Union[Student, Teacher, Institution]]]
     type_of_post: str
+
+
+Student.update_forward_refs()
 
 
 # -----------Authentication-------
