@@ -72,4 +72,4 @@ def test_post_request_with_proper_body_returns_200_with_jwt_token(http_test_clie
         # response = http_test_client.post('/users/auth', json=valid_user_info) # this is the same as the above line
         assert response.status_code == 200
         assert len(response.json()) == 2
-        # assert type(response.text) is Token
+        assert type(response.json()) is type(valid_token)
