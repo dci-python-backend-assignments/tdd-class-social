@@ -67,6 +67,7 @@ student_with_an_institution_associated = \
             created_on=datetime.datetime.now(), is_active=True, address="some_address",
             institution=institution_associated_with_a_user)
 
+
 def test_get_users_by_id_must_return_none_if_no_user_is_found_with_the_specified_id():
     with patch('class_social.db.load_users') as mocked_load_users:
         mocked_load_users.return_value = []
