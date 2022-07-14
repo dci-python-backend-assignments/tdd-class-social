@@ -89,3 +89,15 @@ def test_must_return_edited_user_and_200_ok(http_test_client):
         assert response.status_code == 200
 
 
+def test_institution_confirm_users_if_the_data_is_not_valid__and_422_ok(http_test_client):
+    with patch('class_social.users.user_controller') as controller_mock:
+        controller_mock.institution_confirm_users = Mock(return_value=None)
+        response = http_test_client.get('/user_confirmation/institution')
+        assert response.status_code == 422
+
+
+def test_institution_confirm_users_always_return_a_none_and_200_ok(http_test_client):
+    with patch('class_social.users.user_controller') as controller_mock:
+        controller_mock.institution_confirm_users = Mock(return_value=None)
+        response = http_test_client.get('/user_confirmation/institution', json=valid_user)
+        assert response.status_code == 200
