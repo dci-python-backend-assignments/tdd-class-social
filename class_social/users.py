@@ -15,7 +15,7 @@ class UserController:
 
     def insert_users(self, user):
         try:
-            if self.is_email_in_database(user) is False:
+            if self.is_email_in_database(user.email) is False:
                 user_list = db.load_users()
                 user_list.append(user)
                 db.save_users([user for user in user_list])
