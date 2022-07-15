@@ -50,19 +50,28 @@ class UserController:
             raise UserControllerError('Error trying to load users from DB')
 
     # edit user profile
-    def edit_user_profile(self, user, changes):
-        id_ = user.id
-        if get_user_by_id(id_) is None:
+    def edit_user_profile(self, user_id, changes):
+        users = db.load_users()
+        user_ = get_user_by_id(str(user_id))
+        updated = []
+        if user_ is None:
             raise HTTPException(status_code=404)
-        try:
-            if isinstance(user, User) and type(changes) == dict:
-                for attribute, new_value in changes.items():
-                    setattr(user, attribute, new_value)
-                return user
-            else:
+        else:
+            try:
+                if isinstance(user_, User) and type(changes) == dict:
+                    for attribute, new_value in changes.items():
+                        setattr(user_, attribute, new_value)
+                    for user in users:
+                        if user.id == user_.id:
+                            updated.append(user_)
+                        else:
+                            updated.append(user)
+                    db.save_users(updated)
+                    return user_
+                else:
+                    raise UserControllerError('Error wrong input type')
+            except UserControllerError:
                 raise UserControllerError('Error wrong input type')
-        except UserControllerError:
-            raise UserControllerError('Error wrong input type')
 
     def is_email_in_database(self, email):
         users_list = db.load_users()
@@ -112,8 +121,8 @@ def get_user_by_id(id: str):
 
 # edit user profile by providing dict with changes
 @users_routes.patch('/users/{user_id}/profile')
-def edit_user_profile(user: User, changes: dict) -> User:
-    user = user_controller.edit_user_profile(user, changes)
+def edit_user_profile(user_id: str, changes: dict) -> User:
+    user = user_controller.edit_user_profile(user_id, changes)
     return user
 
 @users_routes.get('/users/{id}/is_active')
