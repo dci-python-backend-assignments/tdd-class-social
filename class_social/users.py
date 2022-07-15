@@ -58,18 +58,15 @@ class UserController:
             raise HTTPException(status_code=404)
         else:
             try:
-                if isinstance(user_, User) and type(changes) == dict:
-                    for attribute, new_value in changes.items():
-                        setattr(user_, attribute, new_value)
-                    for user in users:
-                        if user.id == user_.id:
-                            updated.append(user_)
-                        else:
-                            updated.append(user)
-                    db.save_users(updated)
-                    return user_
-                else:
-                    raise UserControllerError('Error wrong input type')
+                for user in users:
+                    if user.id == user_.id:
+                        for attribute, new_value in changes.items():
+                            setattr(user_, attribute, new_value)
+                        updated.append(user_)
+                    else:
+                        updated.append(user)
+                db.save_users(updated)
+                return user_
             except UserControllerError:
                 raise UserControllerError('Error wrong input type')
 

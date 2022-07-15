@@ -130,8 +130,6 @@ def test_if_user_was_edited_it_still_should_be_the_same_object_and_changes_be_in
         assert result != original_user
         # test if changes have been incorporated successfully
         assert [result] == mocked_load_users.return_value
-        # test if it is still the same object, not possible with user.id instead of user
-        # assert result is valid_user
 
 
 def test_exception_error_404_must_be_raised_if_user_nonexistent():
