@@ -37,7 +37,8 @@ class PostController:
 
 
 # API Routes
-posts_routes = APIRouter()
+post_routes = APIRouter()
+#posts_routes = APIRouter()
 post_controller = PostController()
 
 @post_routes.post('/posts')
@@ -53,7 +54,7 @@ def get_posts_by_username(username: str):
 
     raise HTTPException(status_code=404)
 
-@posts_routes.get('/posts/creator/{role}')
+@post_routes.get('/posts/creator/{role}')
 def get_posts_by_creator_role(role: str):
     post = post_controller.get_posts_by_creator_role(role)
     if post is not None:

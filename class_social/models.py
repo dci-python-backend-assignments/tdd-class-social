@@ -15,7 +15,7 @@ class User(BaseModel):
     name: str
     address: str
     website: Optional[str]
-    connections: Optional[List['User']]
+    connections: Optional[List[str]]
     # connections: Optional[List['User']]
     about: Optional[str]
     role: Optional[str]
