@@ -10,15 +10,9 @@ setup(
     license="MIT",
     keywords=['social networks', 'education'],
     requires=[
-        'fastapi',
-        'requests',
-        'uvicorn',
-        'deta',
-        'python-multipart'
+        'django',
+        'djangorestframework',
     ],
     test_suite='pytest',
     packages=find_packages(),
-    entry_points={
-        "console_scripts": ['blog=blog.main:main']
-    }
 )

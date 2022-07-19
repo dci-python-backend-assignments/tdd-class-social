@@ -47,8 +47,7 @@ For this project, we are going to use the following tools and languages:
 
 - Python is the main programming language.
 - Pytest as the test framework.
-- FasAPI for the HTTP API.
-  - FastAPI uses pydantic for input validation, so the models MUST be written as Pydantic models.
+- Django Rest Framework for the HTTP API.
 - Git for version control.
 - GitHub for remote repository and project management.
 
