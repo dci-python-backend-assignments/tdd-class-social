@@ -1,8 +1,2 @@
-uvicorn~=0.17.6
-fastapi~=0.78.0
-pydantic
-deta
-python-multipart
-jwt
-bcrypt
-pyjwt
+Django~=4.0.6
+djangorestframework~=3.13.1
