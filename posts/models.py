@@ -35,7 +35,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, related_name='comments', null=True, blank=True, on_delete=models.SET_NULL)
     post = models.ForeignKey(Post, related_name='comments', null=True, blank=True, on_delete=models.SET_NULL)
     content = models.TextField()
-    commented_date = models.DateTimeField(datetime.now())  # DateTimeField(default=datetime)
+    commented_date = models.DateField()  # DateTimeField(default=datetime)
 
 
 class Teacher(models.Model):
