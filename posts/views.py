@@ -33,12 +33,12 @@ class UserViewSet(ModelViewSet):
     serializer_class = UserSerializer
 
 
-# class CommentViewSet(ModelViewSet):
-#     """
-#     API endpoint that allows groups to be viewed or edited.
-#     """
-#     queryset = Comment.objects.all()
-#     serializer_class = CommentSerializer
+class CommentViewSet(ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
 
 
 # class BookApiView(APIView):

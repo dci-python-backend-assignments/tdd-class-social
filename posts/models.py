@@ -20,7 +20,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
 
     content = models.TextField(default='')
-    creation_date = models.DateTimeField(datetime)  # DateField(default=datetime, null=True)
+    creation_date = models.DateField()  # DateField(default=datetime, null=True)
     creator = models.ManyToManyField(User, related_name='posts')
 
     # comments_on_this_post = models.ManyToManyField(User, related_name='commented_posts')
@@ -35,7 +35,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, related_name='comments', null=True, blank=True, on_delete=models.SET_NULL)
     post = models.ForeignKey(Post, related_name='comments', null=True, blank=True, on_delete=models.SET_NULL)
     content = models.TextField()
-    commented_date = models.DateTimeField(datetime)  # DateTimeField(default=datetime)
+    commented_date = models.DateTimeField(datetime.now())  # DateTimeField(default=datetime)
 
 
 class Teacher(models.Model):
