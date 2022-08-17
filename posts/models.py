@@ -13,8 +13,12 @@ class User(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.name
 
 # still under construction😉
+
+
 class Post(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
@@ -29,13 +33,19 @@ class Post(models.Model):
     shares_for_this_post = models.ManyToManyField(User, related_name='shares')
     type_of_post = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.title
+
 
 class Comment(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, related_name='comments', null=True, blank=True, on_delete=models.SET_NULL)
-    post = models.ForeignKey(Post, related_name='comments', null=True, blank=True, on_delete=models.SET_NULL)
+    user = models.ManyToManyField(User, related_name='comments')
+    post = models.ManyToManyField(Post, related_name='comments')
     content = models.TextField()
     commented_date = models.DateField()  # DateTimeField(default=datetime)
+
+    def __str__(self):
+        return f"{self.content}"  # todo try to figure out how to desplay the name of the commenter
 
 
 class Teacher(models.Model):
