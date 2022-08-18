@@ -8,7 +8,6 @@ This could be solved by deleting all the migration (click on the migrations pack
 then delete the db.sqlite3 file then initiate the migration again"""
 
 
-# todo initial simple user model just to test the post models
 class User(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
@@ -16,21 +15,16 @@ class User(models.Model):
     def __str__(self):
         return self.name
 
+
 # still under construction😉
-
-
 class Post(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
-
     content = models.TextField(default='')
     creation_date = models.DateField()  # DateField(default=datetime, null=True)
-    creator = models.ForeignKey(User, related_name='posts', null=True, blank=True, on_delete=models.CASCADE)  # todo check it
-
-    # comments_on_this_post = models.ManyToManyField(User, related_name='commented_posts')
-    # comments_on_this_post = ListField(null=True)
-    likes_for_this_post = models.ManyToManyField(User, related_name='likes')
-    shares_for_this_post = models.ManyToManyField(User, related_name='shares')
+    creator = models.ForeignKey(User, related_name='posts', null=True, blank=True, on_delete=models.CASCADE)
+    likes_for_this_post = models.ManyToManyField(User, related_name='likes', blank=True)  # Todo check whether we need to create a class for the likes and a class for the share
+    shares_for_this_post = models.ManyToManyField(User, related_name='shares', blank=True)
     type_of_post = models.CharField(max_length=200)
 
     def __str__(self):

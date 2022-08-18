@@ -6,7 +6,7 @@ from posts.models import Post, User, Comment
 
 class PostSerializer(HyperlinkedModelSerializer):
     creator = HyperlinkedRelatedField(
-        queryset=User.objects.all(), many=True,
+        queryset=User.objects.all(), many=False,
         view_name='user-detail')
     comments = HyperlinkedRelatedField(
         queryset=Comment.objects.all(), many=True,
@@ -25,10 +25,10 @@ class PostSerializer(HyperlinkedModelSerializer):
 
 class CommentSerializer(HyperlinkedModelSerializer):
     user = HyperlinkedRelatedField(
-        queryset=User.objects.all(), many=True,
+        queryset=User.objects.all(), many=False,
         view_name='user-detail')
     post = HyperlinkedRelatedField(
-        queryset=Post.objects.all(), many=True,
+        queryset=Post.objects.all(), many=False,
         view_name='post-detail')
 
     class Meta:
