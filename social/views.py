@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
 
-# Create your views here.
+from social.models import BaseUser
+from social.serializers import BaseUserSerializer
+
+
+class BaseUserViewSet(ModelViewSet):
+    queryset = BaseUser.objects.all()
+    serializer_class = BaseUserSerializer
