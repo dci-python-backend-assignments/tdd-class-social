@@ -25,7 +25,7 @@ class Post(models.Model):
 
     content = models.TextField(default='')
     creation_date = models.DateField()  # DateField(default=datetime, null=True)
-    creator = models.ManyToManyField(User, related_name='posts')
+    creator = models.ForeignKey(User, related_name='posts', null=True, blank=True, on_delete=models.CASCADE)  # todo check it
 
     # comments_on_this_post = models.ManyToManyField(User, related_name='commented_posts')
     # comments_on_this_post = ListField(null=True)
@@ -39,13 +39,13 @@ class Post(models.Model):
 
 class Comment(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ManyToManyField(User, related_name='comments')
-    post = models.ManyToManyField(Post, related_name='comments')
+    user = models.ForeignKey(User, related_name='comments', null=True, blank=True, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, related_name='comments', null=True, blank=True, on_delete=models.CASCADE)
     content = models.TextField()
     commented_date = models.DateField()  # DateTimeField(default=datetime)
 
     def __str__(self):
-        return f"{self.content}"  # todo try to figure out how to desplay the name of the commenter
+        return f"{self.content}"  # todo try to figure out how to display the name of the commenter
 
 
 class Teacher(models.Model):
