@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'social.apps.SocialConfig',
     'posts'
+    'user_mgmt',
+
 ]
 
 MIDDLEWARE = [

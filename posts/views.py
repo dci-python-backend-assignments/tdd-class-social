@@ -6,15 +6,7 @@
 from posts.models import Post, User, Comment, Profile, FollowersCount
 from rest_framework.viewsets import ModelViewSet
 # from rest_framework import permissions, status, filters
-from posts.serializers import UserSerializer, ProfileSerializer, FollowersCountSerializer, CommentSerializer, PostSerializer
-
-
-class UserViewSet(ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+from posts.serializers import  ProfileSerializer, FollowersCountSerializer, CommentSerializer, PostSerializer
 
 
 class ProfileViewSet(ModelViewSet):

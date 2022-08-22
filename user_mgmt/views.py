@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 
-from social.models import BaseUser
-from social.serializers import BaseUserSerializer
+from user_mgmt.models import BaseUser
+from user_mgmt.serializers import BaseUserSerializer
 
 
 class BaseUserViewSet(ModelViewSet):
