@@ -1,6 +1,12 @@
 from django.db import models
 
 
+GENDER_CHOICES = [('U', 'Unicorn'),
+                  ('F', 'Female'),
+                  ('M', 'Male'),
+                  ('O', 'Other')]
+
+
 class BaseUser(models.Model):
 
     id = models.AutoField(primary_key=True)
@@ -30,7 +36,6 @@ class Course(models.Model):
 
 class Institution(BaseUser):
     name = models.CharField(max_length=300)
-    phone_numbers = models.IntegerField()
     associates = models.ManyToManyField(BaseUser, symmetrical=False, related_name='institutions', blank=True)
     head_of_organization = models.CharField(max_length=300)
     research_institution = models.BooleanField(default=False, null=True, blank=True)
@@ -45,11 +50,7 @@ class Student(BaseUser):
     courses = models.ManyToManyField(Course, symmetrical=False, related_name='students')
     institution = models.ManyToManyField(Institution, symmetrical=False, related_name='students')
     interests = models.TextField(max_length=200, null=True, blank=True)
-    date_of_birth = models.DateField()
-    GENDER_CHOICES = [('U', 'Unicorn'),
-                      ('F', 'Female'),
-                      ('M', 'Male'),
-                      ('O', 'Other')]
+    date_of_birth = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='Unicorn')
 
 
@@ -59,3 +60,5 @@ class Teacher(BaseUser):
     courses = models.ManyToManyField(Course, symmetrical=False, related_name='teacher')
     institution = models.ManyToManyField(Institution, symmetrical=False, related_name='teacher')
     interests = models.TextField(max_length=200, null=True, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='Unicorn')
