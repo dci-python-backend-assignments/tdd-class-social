@@ -3,10 +3,31 @@
 # from rest_framework.response import Response
 # from rest_framework.views import APIView
 
-from posts.models import Post, User, Comment
+from posts.models import Post, User, Comment, Profile, FollowersCount
 from rest_framework.viewsets import ModelViewSet
 # from rest_framework import permissions, status, filters
-from posts.serializers import PostSerializer, UserSerializer, CommentSerializer
+from posts.serializers import UserSerializer, ProfileSerializer, FollowersCountSerializer, CommentSerializer, PostSerializer
+
+
+class UserViewSet(ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class ProfileViewSet(ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+
+class FollowersCountVieSet(ModelViewSet):
+    queryset = FollowersCount.objects.all()
+    serializer_class = FollowersCountSerializer
 
 
 class PostViewSet(ModelViewSet):
@@ -25,14 +46,6 @@ class PostViewSet(ModelViewSet):
         return queryset
 
 
-class UserViewSet(ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
 class CommentViewSet(ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
@@ -41,18 +54,3 @@ class CommentViewSet(ModelViewSet):
     serializer_class = CommentSerializer
 
 
-# class BookApiView(APIView):
-#     def post(self, request: Request):
-#         # logger.info(request.data)
-#         serializer = BookSerializer(data=request.data)
-#         if serializer.is_valid():
-#             return Response(data=request.data)
-#         else:
-#             return Response(data=serializer.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
-#
-#     def get(self, request: Request):
-#         # logger.info('GET received ..')
-#         # queryset = Book.objects.all()
-#         # serializer = BookSerializer(initial=queryset)
-#         # return Response(serializer.data, status=status.HTTP_200_OK)
-#         return Response({'message': 'Hi'}, status=status.HTTP_200_OK)
