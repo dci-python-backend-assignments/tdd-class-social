@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from social.views import BaseUserViewSet
+from user_mgmt.views import BaseUserViewSet
 
 router = DefaultRouter()
 router.register(r'user', BaseUserViewSet)
