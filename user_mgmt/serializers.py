@@ -8,4 +8,4 @@ class BaseUserSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = BaseUser
         fields = ['id', 'username', 'password', 'email', 'created_on', 'is_active', 'address',
-                  'website', 'about', 'connections', 'role', 'url']
+                  'website', 'about', 'connections', 'url']

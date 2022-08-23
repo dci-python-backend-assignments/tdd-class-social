@@ -1,18 +1,6 @@
-# from rest_framework import serializers
 from rest_framework.serializers import HyperlinkedModelSerializer, HyperlinkedRelatedField
-
-from posts.models import Post, Comment, Profile, FollowersCount
+from posts.models import Post, Comment
 from user_mgmt.models import BaseUser
-
-
-class ProfileSerializer(HyperlinkedModelSerializer):
-    # User = HyperlinkedRelatedField(
-    #     queryset=User.objects.all(), many=False,
-    #     view_name='user-detail')
-
-    class Meta:
-        model = Profile
-        fields = '__all__'
 
 
 class PostSerializer(HyperlinkedModelSerializer):
@@ -22,18 +10,11 @@ class PostSerializer(HyperlinkedModelSerializer):
     comments = HyperlinkedRelatedField(
         queryset=Comment.objects.all(), many=True,
         view_name='comment-detail')
-    likes_for_this_post = HyperlinkedRelatedField(
-        queryset=BaseUser.objects.all(), many=True,
-        view_name='user-detail')
-    shares_for_this_post = HyperlinkedRelatedField(
-        queryset=BaseUser.objects.all(), many=True,
-        view_name='user-detail')
 
     class Meta:
         model = Post
-        # fields = ['url', 'title', 'content', 'creator', 'type_of_post', 'likes_for_this_post', 'shares_for_this_post', 'creation_date', 'comments', ]
-        # fields = ['url', '__all__', 'comments', 'shares_for_this_post' ]
-        fields = '__all__'
+        fields = ['url', 'title', 'content', 'creator', 'type_of_post', 'likes', 'shares', 'saves', 'created_at',
+                  'comments', 'updated_at', 'attachments']
 
 
 class CommentSerializer(HyperlinkedModelSerializer):
@@ -46,19 +27,7 @@ class CommentSerializer(HyperlinkedModelSerializer):
     likes = HyperlinkedRelatedField(
         queryset=BaseUser.objects.all(), many=True,
         view_name='user-detail')
-    reply = HyperlinkedRelatedField(
-        queryset=BaseUser.objects.all(), many=True,
-        view_name='user-detail')
 
     class Meta:
         model = Comment
-        # fields = ['url', 'user', 'content', 'post', 'commented_date', ]
-        fields = '__all__'
-
-
-class FollowersCountSerializer(HyperlinkedModelSerializer):
-    class Meta:
-        model = FollowersCount
-        fields = '__all__'
-
-
+        fields = ['url', 'user', 'content', 'post', 'commented_date', 'likes']

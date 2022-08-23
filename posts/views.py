@@ -1,31 +1,9 @@
-# from django.shortcuts import render
-# from rest_framework.request import Request
-# from rest_framework.response import Response
-# from rest_framework.views import APIView
-
-from posts.models import Post, User, Comment, Profile, FollowersCount
+from posts.models import Post, Comment
 from rest_framework.viewsets import ModelViewSet
-# from rest_framework import permissions, status, filters
-from posts.serializers import  ProfileSerializer, FollowersCountSerializer, CommentSerializer, PostSerializer
-
-
-class ProfileViewSet(ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-
-
-class FollowersCountVieSet(ModelViewSet):
-    queryset = FollowersCount.objects.all()
-    serializer_class = FollowersCountSerializer
+from posts.serializers import CommentSerializer, PostSerializer
 
 
 class PostViewSet(ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
@@ -39,10 +17,5 @@ class PostViewSet(ModelViewSet):
 
 
 class CommentViewSet(ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-
-
