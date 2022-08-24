@@ -8,15 +8,16 @@ class BaseUserSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = BaseUser
         fields = ['id', 'username', 'password', 'email', 'created_on', 'is_active', 'address',
-                  'website', 'about', 'connections', 'url']
+                  'website', 'about', 'connections', 'url', 'avatar', 'phone_number']
 
 
 class InstitutionSerializer(HyperlinkedModelSerializer):
 
     class Meta:
         model = Institution
-        fields = ['url', 'name', 'associates', 'head_of_organization', 'research_institution',
-                  'education_institution', 'courses']
+        fields = ['id', 'username', 'password', 'email', 'created_on', 'is_active', 'address',
+                  'website', 'about', 'connections', 'url', 'avatar', 'phone_number', 'name', 'associates',
+                  'head_of_organization', 'research_institution','education_institution', 'courses']
 
 
 class StudentSerializer(HyperlinkedModelSerializer):
