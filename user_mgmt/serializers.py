@@ -14,12 +14,9 @@ class InstitutionSerializer(HyperlinkedModelSerializer):
 
     class Meta:
         model = Institution
-        fields = ['username', 'password', 'email']
+        fields = ['id', 'username', 'password', 'email', 'created_on', 'is_active', 'address', 'phone_number', 'avatar',
+                  'website', 'about', 'url', 'name', 'head_of_organization', 'research_institution', 'education_institution']
 
-    def create(self, validated_data):
-        institution = Institution(**validated_data)
-        institution.save()
-        return institution
 
 class StudentSerializer(HyperlinkedModelSerializer):
 
@@ -33,5 +30,3 @@ class TeacherSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Teacher
         fields = '__all__'
-
-
