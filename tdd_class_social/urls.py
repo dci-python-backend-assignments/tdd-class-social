@@ -3,7 +3,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from posts.views import PostViewSet, CommentViewSet
-from user_mgmt.views import BaseUserViewSet, InstitutionViewSet, StudentViewSet, TeacherViewSet, RegisterInstitution, UpdateBaseUser
+from user_mgmt.views import BaseUserViewSet, InstitutionViewSet, StudentViewSet, TeacherViewSet, RegisterInstitution
 
 router = DefaultRouter()
 router.register(r'users', BaseUserViewSet)
