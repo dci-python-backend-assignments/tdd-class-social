@@ -27,6 +27,7 @@ class BaseUser(models.Model):
 
 
 class Course(models.Model):
+
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
 
@@ -35,6 +36,7 @@ class Course(models.Model):
 
 
 class Institution(BaseUser):
+
     name = models.CharField(max_length=300)
     associates = models.ManyToManyField(BaseUser, symmetrical=False, related_name='institutions', blank=True)
     head_of_organization = models.CharField(max_length=300)
@@ -55,6 +57,7 @@ class Student(BaseUser):
 
 
 class Teacher(BaseUser):
+
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     courses = models.ManyToManyField(Course, symmetrical=False, related_name='teacher', null=True, blank=True)

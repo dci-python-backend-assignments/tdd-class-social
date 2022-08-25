@@ -2,7 +2,8 @@ from rest_framework import generics
 from rest_framework.viewsets import ModelViewSet
 
 from user_mgmt.models import BaseUser, Institution, Student, Teacher
-from user_mgmt.serializers import BaseUserSerializer, InstitutionSerializer, StudentSerializer, TeacherSerializer
+from user_mgmt.serializers import BaseUserSerializer, InstitutionSerializer, StudentSerializer, TeacherSerializer, \
+    UpdateSerializer
 
 
 class BaseUserViewSet(ModelViewSet):
@@ -24,24 +25,15 @@ class RegisterInstitution(generics.CreateAPIView):
         institution.save()
         return institution
 
-class UpdateInstitution(generics.UpdateAPIView):
-    queryset = Institution.objects.all()
-    serializer_class = InstitutionSerializer
+
+class UpdateBaseUser(generics.UpdateAPIView):
+    queryset = BaseUser.objects.all()
+    serializer_class = UpdateSerializer
 
     def update(self, validated_data):
-        institution = Institution(**validated_data)
-        institution.save()
-        return institution
-    
-
-    # def get_queryset(self):
-    #     search_term = self.request.query_params.get('search_terms')
-    #     if search_term:
-    #         queryset = Institution.objects.filter(title__contains=search_term)
-    #     else:
-    #         queryset = Institution.objects.all()
-    #
-    #     return queryset
+        user = BaseUser(**validated_data)
+        user.save()
+        return user
 
 
 class StudentViewSet(ModelViewSet):

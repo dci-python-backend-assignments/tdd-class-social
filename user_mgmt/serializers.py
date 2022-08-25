@@ -10,6 +10,13 @@ class BaseUserSerializer(HyperlinkedModelSerializer):
         fields = ['id', 'username', 'password', 'email', 'created_on', 'is_active', 'address',
                   'website', 'about', 'connections', 'url']
 
+
+class UpdateSerializer(HyperlinkedModelSerializer):
+
+    class Meta:
+        model = BaseUser
+        fields = '__all__'
+
 class InstitutionSerializer(HyperlinkedModelSerializer):
 
     class Meta:
