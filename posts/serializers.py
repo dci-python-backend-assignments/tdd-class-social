@@ -27,7 +27,7 @@ class CommentSerializer(HyperlinkedModelSerializer):
         view_name='post-detail')
     likes = HyperlinkedRelatedField(
         queryset=BaseUser.objects.all(), many=True,
-        view_name='user-detail')
+        view_name='baseuser-detail')
 
     class Meta:
         model = Comment
