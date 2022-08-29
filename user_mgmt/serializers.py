@@ -17,6 +17,7 @@ class UpdateSerializer(HyperlinkedModelSerializer):
         model = BaseUser
         fields = '__all__'
 
+
 class InstitutionSerializer(HyperlinkedModelSerializer):
 
     class Meta:
