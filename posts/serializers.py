@@ -6,8 +6,9 @@ from user_mgmt.models import BaseUser
 class PostSerializer(HyperlinkedModelSerializer):
     creator = HyperlinkedRelatedField(
         queryset=BaseUser.objects.all(), many=False,
-        view_name='user-detail')
+        view_name='baseuser-detail')
     comments = HyperlinkedRelatedField(
+        required=False,
         queryset=Comment.objects.all(), many=True,
         view_name='comment-detail')
 
@@ -20,13 +21,13 @@ class PostSerializer(HyperlinkedModelSerializer):
 class CommentSerializer(HyperlinkedModelSerializer):
     user = HyperlinkedRelatedField(
         queryset=BaseUser.objects.all(), many=False,
-        view_name='user-detail')
+        view_name='baseuser-detail')
     post = HyperlinkedRelatedField(
         queryset=Post.objects.all(), many=False,
         view_name='post-detail')
     likes = HyperlinkedRelatedField(
         queryset=BaseUser.objects.all(), many=True,
-        view_name='user-detail')
+        view_name='baseuser-detail')
 
     class Meta:
         model = Comment
