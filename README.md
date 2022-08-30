@@ -132,6 +132,7 @@ curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 - gunicorn
 - psycopg2-binary
 - dj-database-url
+
 This should also be added to your `requirements.txt` file with the versions.
 
 5. To create Heroku app for the first time type the following command:
@@ -140,13 +141,7 @@ This should also be added to your `requirements.txt` file with the versions.
 heroku create
 ```
 
-6. Push the code to heroku by using the following command:
-
-```commandline
-git push heroku main
-```
-
-7. Make adjustments to your ```settings.py``` file.
+6. Make adjustments to your ```settings.py``` file.
 Import from dj_database using the following python statement:
 
 ```import dj_database_url```
@@ -175,6 +170,12 @@ MIDDLEWARE = [
     ...
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+```
+
+7. Push the code to heroku by using the following command:
+
+```commandline
+git push heroku main
 ```
 
 8. If your Django Project has any migrations, run them using the following command:
