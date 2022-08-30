@@ -110,3 +110,81 @@ stakeholders. Some objectives of this workshop are:
 - Identify required functionalities,
 - Prioritize the stories,
 - and share knowledge
+
+### Ways to deploy to Heroku
+
+1. Create `runtime.txt` file if it is missing, update it with Python version that is supported by Heroku.
+
+2. Create a `Procfile` file if it is missing. Add the following in the file.
+
+```web: gunicorn <Name of django Project>.wsgi```
+
+3. Make sure to install the heroku toolbelt. Visit https://devcenter.heroku.com/articles/heroku-cli#install-the-heroku-cli
+In Linux, (Note: Install it once in your system)
+
+```commandline
+curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+```
+
+4. Install the following dependencies:
+
+- whitenoise
+- gunicorn
+- psycopg2-binary
+- dj-database-url
+This should also be added to your `requirements.txt` file with the versions.
+
+5. To create Heroku app for the first time type the following command:
+
+```commandline
+heroku create
+```
+
+6. Push the code to heroku by using the following command:
+
+```commandline
+git push heroku main
+```
+
+7. Make adjustments to your ```settings.py``` file.
+Import from dj_database using the following python statement:
+
+```import dj_database_url```
+
+Add the following statements after the `DATABASES` dictionary:
+
+```
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
+```
+
+Add the following statement:
+
+```STATIC_ROOT = BASE_DIR / 'app/public/static'```
+
+Add the provided heroku domain to the `ALLOWED_HOSTS` list.
+
+Eg: `ALLOWED_HOSTS = ['guarded-wave-06107.herokuapp.com',  '0.0.0.0']`
+
+Add the following the `MIDDLEWARE` list:
+
+```
+MIDDLEWARE = [
+    ...
+    ...
+    ...
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+]
+```
+
+8. If your Django Project has any migrations, run them using the following command:
+
+```commandline
+heroku run python manage.py migrate
+```
+
+9. If you want to test locally, run the following command:
+
+```commandline
+heroku local web
+```
