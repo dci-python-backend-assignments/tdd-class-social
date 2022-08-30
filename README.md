@@ -113,9 +113,11 @@ stakeholders. Some objectives of this workshop are:
 
 ### Ways to deploy to Heroku
 
-1. Create `runtime.txt` file if it is missing, update it with Python version that is supported by Heroku.
+1. Create `runtime.txt` file in the main directory(tdd-class-social) if it is missing, update it with Python version that is supported by Heroku.
 
-2. Create a `Procfile` file if it is missing. Add the following in the file.
+```python-3.10.6```
+
+2. Create a `Procfile` file in the main directory(tdd-class-social) if it is missing. Add the following in the file.
 
 ```web: gunicorn <Name of django Project>.wsgi```
 
@@ -126,7 +128,9 @@ In Linux, (Note: Install it once in your system)
 curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 ```
 
-4. Install the following dependencies:
+4. Add the `requirements.txt` file in the main directory(tdd-class-social) if it is missing.
+
+5. Install the following dependencies:
 
 - whitenoise
 - gunicorn
@@ -135,13 +139,15 @@ curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 
 This should also be added to your `requirements.txt` file with the versions.
 
-5. To create Heroku app for the first time type the following command:
+6. Run the command `heroku login` which redirects to the heroku website to create or login to your account.
+
+7. To create Heroku app for the first time type the following command:
 
 ```commandline
 heroku create
 ```
 
-6. Make adjustments to your ```settings.py``` file.
+8. Make adjustments to your ```settings.py``` file.
 Import from dj_database using the following python statement:
 
 ```import dj_database_url```
@@ -157,9 +163,15 @@ Add the following statement:
 
 ```STATIC_ROOT = BASE_DIR / 'app/public/static'```
 
+else run the following command in the terminal:
+
+```commandline
+heroku config:set DISABLE_COLLECTSTATIC=1
+```
+
 Add the provided heroku domain to the `ALLOWED_HOSTS` list.
 
-Eg: `ALLOWED_HOSTS = ['guarded-wave-06107.herokuapp.com',  '0.0.0.0']`
+Eg: `ALLOWED_HOSTS = ['<.....herokuapp.com>',  '0.0.0.0']`
 
 Add the following the `MIDDLEWARE` list:
 
@@ -172,20 +184,22 @@ MIDDLEWARE = [
 ]
 ```
 
-7. Push the code to heroku by using the following command:
+9. Push the code to heroku by using the following command:
 
 ```commandline
 git push heroku main
 ```
 
-8. If your Django Project has any migrations, run them using the following command:
+10. If your Django Project has any migrations, run them using the following command:
 
 ```commandline
 heroku run python manage.py migrate
 ```
 
-9. If you want to test locally, run the following command:
+11. If you want to test locally, run the following command:
 
 ```commandline
 heroku local web
 ```
+
+12. To test the deployment in heroku, click the ' <https:....herokuapp.com/> deployed to heroku' or run `heroku open`.
