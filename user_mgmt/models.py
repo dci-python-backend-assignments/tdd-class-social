@@ -1,6 +1,5 @@
 from django.db import models
 
-
 GENDER_CHOICES = [('U', 'Unicorn'),
                   ('F', 'Female'),
                   ('M', 'Male'),
@@ -8,7 +7,6 @@ GENDER_CHOICES = [('U', 'Unicorn'),
 
 
 class BaseUser(models.Model):
-
     id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=100)
     password = models.CharField(max_length=200)
@@ -27,16 +25,20 @@ class BaseUser(models.Model):
 
 
 class Course(models.Model):
-
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
+    description = models.TextField(null=True, blank=True, default=None)
+    start_date = models.DateField(null=True, blank=True, default=None)
+    end_date = models.DateField(null=True, blank=True, default=None)
+
+    class Meta:
+        db_table = 'course'
 
     def __str__(self):
         return f"{self.name}-{self.id}"
 
 
 class Institution(BaseUser):
-
     name = models.CharField(max_length=300)
     associates = models.ManyToManyField(BaseUser, symmetrical=False, related_name='institutions', blank=True)
     head_of_organization = models.CharField(max_length=300)
@@ -46,7 +48,6 @@ class Institution(BaseUser):
 
 
 class Student(BaseUser):
-
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     courses = models.ManyToManyField(Course, symmetrical=False, related_name='students', null=True, blank=True)
@@ -55,9 +56,24 @@ class Student(BaseUser):
     date_of_birth = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='Unicorn')
 
+    @property
+    def full_name(self):
+        return self.first_name + ' ' + self.last_name
+
+
+class CourseParticipant(models.Model):
+    course = models.ForeignKey(Course, related_name='course', on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, related_name='student_name', on_delete=models.CASCADE)
+    completed = models.BooleanField(null=False, default=False)
+
+    class Meta:
+        db_table = 'course_participant'
+
+    def __str__(self):
+        return self.course, self.student
+
 
 class Teacher(BaseUser):
-
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     courses = models.ManyToManyField(Course, symmetrical=False, related_name='teacher', null=True, blank=True)
@@ -65,3 +81,14 @@ class Teacher(BaseUser):
     interests = models.TextField(max_length=200, null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='Unicorn')
+
+
+class MyFile(models.Model):
+    file = models.FileField(blank=False, null=False, upload_to='images/')
+    description = models.CharField(null=True, max_length=255)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'MyFiles'
+# https://www.youtube.com/watch?v=UKE5yQAmg0k
+# https://stackoverflow.com/questions/69119309/pass-row-data-from-csv-to-api-and-append-results-to-an-empty-csv-column

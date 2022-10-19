@@ -20,5 +20,7 @@ urlpatterns = [
     path('institutions/register', RegisterInstitution.as_view()),
     path('posts_by=<str:role>/', PostByRole.as_view(), name='<str:role>_posts'),
     path('name=<str:name>/', FilterInstitutionViewSet.as_view()),
+    path('export_students', ExportCSVStudents.as_view()),
+    # path('import_data', ImportDataView.as_view()),
 ]
 
